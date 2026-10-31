@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% from "_ui.html" import icon, product_card with context %}
+{% set title = "Your Wishlist | AEROSTRIDE" %}
+{% set description = "Shoes you've saved to your AEROSTRIDE wishlist." %}
+{% set noindex = true %}
+
+{% block content %}
+<section class="page-head">
+  <div class="container">
+    <h1 class="h1">YOUR WISHLIST</h1>
+    <p class="muted" data-wish-summary>Saved on this device.</p>
+  </div>
+</section>
+
+<section class="section section-tight">
+  <div class="container" data-wishlist-page>
+    <noscript><p class="notice">Your wishlist needs JavaScript to display saved shoes. Please enable it and reload.</p></noscript>
+    <div class="empty" data-wish-empty hidden>
+      <h2 class="h3">Nothing saved yet.</h2>
+      <p class="muted">Tap the heart on any shoe to save it here.</p>
+      <a class="btn btn-dark" href="{{ url_for('shop') }}">BROWSE SHOES {{ icon('arrow', 18) }}</a>
+    </div>
+    <div class="grid products" data-wish-grid>
+      {%- for p in products %}
+      {{ product_card(p) }}
+      {%- endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% from "_ui.html" import icon with context %}
+{% set title = "Checkout (Demo) | AEROSTRIDE" %}
+{% set description = "Complete a simulated AEROSTRIDE checkout. This is a demonstration; no payment is taken." %}
+{% set noindex = true %}
+
+{% macro field(id, label, type="text", autocomplete="off", maxlength=100, inputmode=None, hint=None, wide=False) %}
+<div class="field{% if wide %} field-wide{% endif %}{% if errors.get(id) %} has-error{% endif %}">
+  <label for="c-{{ id }}">{{ label }}</label>
+  <input id="c-{{ id }}" name="{{ id }}" type="{{ type }}" value="{{ values.get(id, '') }}" autocomplete="{{ autocomplete }}" maxlength="{{ maxlength }}"{% if inputmode %} inputmode="{{ inputmode }}"{% endif %} required
+         aria-describedby="err-{{ id }}{% if hint %} hint-{{ id }}{% endif %}"{% if errors.get(id) %} aria-invalid="true"{% endif %} data-field="{{ id }}">
+  {%- if hint %}<p class="hint" id="hint-{{ id }}">{{ hint }}</p>{% endif %}
+  <p class="field-error" id="err-{{ id }}" role="alert">{{ errors.get(id, '') }}</p>
+</div>
+{% endmacro %}
+
+{% block head %}
+  <script id="catalog-data" type="application/json">{{ catalog_json|safe }}</script>
+{%- endblock %}
+
+{% block content %}
+<section class="page-head">
+  <div class="container">
+    <h1 class="h1">CHECKOUT</h1>
+    <p class="demo-note"><strong>Demonstration only.</strong> No payment is taken and no card details are collected. Placing an order creates a simulated order record; nothing will be shipped.</p>
+  </div>
+</section>
+
+<section class="section section-tight">
+  <div class="container checkout-layout" data-checkout-page>
+    <form class="checkout-form" method="post" action="{{ url_for('checkout') }}" novalidate data-checkout-form>
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <input type="hidden" name="cart" value="" data-cart-field>
+
+      {%- if cart_error %}
+      <p class="form-alert" role="alert" data-cart-error>{{ cart_error }} <a href="{{ url_for('cart') }}">Review your bag</a></p>
+      {%- endif %}
+
+      <fieldset>
+        <legend>Contact details</legend>
+        <div class="field-grid">
+          {{ field("name", "Full name", autocomplete="name", maxlength=80, wide=True) }}
+          {{ field("email", "Email", type="email", autocomplete="email", maxlength=254) }}
+          {{ field("phone", "Phone", type="tel", autocomplete="tel", maxlength=20, inputmode="tel", hint="10-digit Indian mobile number") }}
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Shipping address</legend>
+        <div class="field-grid">
+          {{ field("address", "Address", autocomplete="street-address", maxlength=200, wide=True) }}
+          {{ field("city", "City", autocomplete="address-level2", maxlength=60) }}
+          {{ field("pin", "PIN code", autocomplete="postal-code", maxlength=6, inputmode="numeric", hint="6 digits") }}
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Payment</legend>
+        <p class="muted">Payment is not part of this demonstration. Your simulated order will be placed with no charge.</p>
+      </fieldset>
+
+      <button class="btn btn-primary btn-block" type="submit" data-place-order>PLACE DEMO ORDER</button>
+      <p class="form-msg" role="alert" data-form-msg></p>
+    </form>
+
+    <aside class="summary" aria-labelledby="sum-title">
+      <h2 id="sum-title" class="h3">Order summary</h2>
+      <p class="muted" data-summary-empty hidden>Your bag is empty. <a href="{{ url_for('shop') }}">Browse the collection</a>.</p>
+      <ul class="sum-list" data-sum-list aria-label="Items in your order"></ul>
+      <dl class="totals">
+        <div><dt>Subtotal</dt><dd data-subtotal>&nbsp;</dd></div>
+        <div><dt>Shipping</dt><dd data-shipping>&nbsp;</dd></div>
+        <div class="total"><dt>Total</dt><dd data-total>&nbsp;</dd></div>
+      </dl>
+      <a class="link-arrow center" href="{{ url_for('cart') }}">Edit bag</a>
+    </aside>
+  </div>
+</section>
+
+<template id="sum-item-tpl">
+  <li class="sum-item">
+    <img alt="" width="800" height="600" loading="lazy" decoding="async">
+    <div>
+      <p class="sum-name" data-name></p>
+      <p class="muted small" data-meta></p>
+    </div>
+    <p class="sum-line" data-line></p>
+  </li>
+</template>
+{% endblock %}

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img"><title>Runner's shoe on a track at dusk</title><rect width="1600" height="900" fill="#111111"/><path d="M-200,900 L380,0" stroke="#fff" stroke-opacity="0.1" stroke-width="3"/><path d="M150,900 L560,0" stroke="#fff" stroke-opacity="0.14" stroke-width="3"/><path d="M520,900 L760,0" stroke="#fff" stroke-opacity="0.18" stroke-width="4"/><path d="M900,900 L960,0" stroke="#fff" stroke-opacity="0.22" stroke-width="4"/><path d="M1300,900 L1160,0" stroke="#fff" stroke-opacity="0.18" stroke-width="4"/><path d="M1700,900 L1360,0" stroke="#fff" stroke-opacity="0.14" stroke-width="3"/><circle cx="1120" cy="470" r="360" fill="#FF5722"/><path d="M0,760 L1600,640" stroke="#fff" stroke-opacity=".25" stroke-width="3"/><g transform="translate(640,250) scale(1.7) rotate(-6 305 150)">
+<ellipse cx="305" cy="292" rx="290" ry="10" fill="#000" opacity=".13"/>
+<path d="M56,200 C40,158 46,102 76,72 C94,54 126,58 150,72 C172,84 190,88 212,80 C226,44 262,24 292,36 C306,62 316,98 344,120 C402,152 482,150 540,184 C568,200 592,212 594,226 L330,208 Z" fill="#F7F7F5" stroke="#111" stroke-opacity=".14" stroke-width="1.5" stroke-linejoin="round"/>
+<path d="M494,168 C528,176 566,196 594,226 L520,216 C512,200 504,184 494,168 Z" fill="#CFCFC8" opacity=".55"/>
+<path d="M56,200 C40,158 46,102 76,72 C94,54 108,56 120,62 C104,100 104,160 122,203 Z" fill="#CFCFC8"/>
+<path d="M76,72 C94,54 126,58 150,72 C172,84 190,88 212,80 L208,94 C188,102 170,100 148,88 C124,76 96,74 82,86 Z" fill="#111" opacity=".38"/>
+<path d="M214,204 C232,164 256,130 288,100 L318,112 C292,140 274,170 262,208 Z" fill="#FF5722"/>
+<path d="M322,98 L296,130" stroke="#111111" stroke-width="7" stroke-linecap="round"/><path d="M352,124 L322,156" stroke="#111111" stroke-width="7" stroke-linecap="round"/><path d="M386,140 L352,170" stroke="#111111" stroke-width="7" stroke-linecap="round"/><path d="M424,149 L390,180" stroke="#111111" stroke-width="7" stroke-linecap="round"/><path d="M462,159 L428,190" stroke="#111111" stroke-width="7" stroke-linecap="round"/>
+<circle cx="520" cy="197" r="3" fill="#111" opacity=".28"/><circle cx="535" cy="204" r="3" fill="#111" opacity=".28"/><circle cx="549" cy="211" r="3" fill="#111" opacity=".28"/>
+<path d="M12,230 C12,208 30,198 56,198 L330,208 C420,210 500,198 560,216 C592,226 602,246 590,260 C582,270 566,274 540,274 L62,274 C30,274 12,258 12,230 Z" fill="#FFFFFF" stroke="#111" stroke-opacity=".14" stroke-width="1.5" stroke-linejoin="round"/>
+<path d="M26,240 C200,250 420,248 582,238" fill="none" stroke="#FF5722" stroke-width="5" stroke-linecap="round" opacity=".95"/>
+<path d="M30,262 L572,262 C566,272 556,277 540,277 L62,277 C44,277 34,271 30,262 Z" fill="#111"/>
+<g stroke="#fff" stroke-opacity=".35" stroke-width="3" stroke-linecap="round">
+<path d="M70,269 h18 M110,269 h18 M150,269 h18 M190,269 h18 M230,269 h18 M270,269 h18 M310,269 h18 M350,269 h18 M390,269 h18 M430,269 h18 M470,269 h18 M510,269 h18"/>
+</g></g></svg>

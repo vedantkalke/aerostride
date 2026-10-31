@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+{% from "_ui.html" import icon, product_card, stars with context %}
+{% set title = "AEROSTRIDE | Engineered for every stride. Performance running footwear" %}
+{% set description = "Run beyond limits with AEROSTRIDE: precision-engineered running, training and lifestyle shoes with adaptive cushioning and advanced grip." %}
+
+{% block content %}
+<section class="hero" aria-labelledby="hero-title">
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <p class="eyebrow">New season &middot; Velocity X</p>
+      <h1 id="hero-title" class="display">RUN<br>BEYOND<br><span class="accent">LIMITS.</span></h1>
+      <p class="lead">Precision-engineered footwear designed to push your performance further.</p>
+      <div class="btn-row">
+        <a class="btn btn-primary" href="{{ url_for('shop') }}">EXPLORE COLLECTION {{ icon('arrow', 18) }}</a>
+        <a class="btn btn-outline" href="#technology">DISCOVER OUR TECHNOLOGY</a>
+      </div>
+      <dl class="hero-stats">
+        <div><dt>Weight</dt><dd>198 g</dd></div>
+        <div><dt>Stack</dt><dd>38 mm</dd></div>
+        <div><dt>Plate</dt><dd>Carbon</dd></div>
+      </dl>
+    </div>
+    <div class="hero-media">
+      <img src="{{ asset('images/hero.svg') }}" alt="AEROSTRIDE Velocity X running shoe in orange and white, angled against a bold orange circle" width="1000" height="760" fetchpriority="high" decoding="async">
+    </div>
+  </div>
+</section>
+
+<section class="usp" aria-label="Store benefits">
+  <ul class="container usp-grid">
+    <li>{{ icon('truck') }}<span>Free shipping over {{ free_shipping|inr }}</span></li>
+    <li>{{ icon('return') }}<span>30-day easy returns</span></li>
+    <li>{{ icon('shield') }}<span>1-year performance warranty</span></li>
+    <li>{{ icon('check') }}<span>Free size exchanges</span></li>
+  </ul>
+</section>
+
+<section class="section" id="collection" aria-labelledby="collection-title">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">The collection</p>
+        <h2 id="collection-title" class="h2">FEATURED FOOTWEAR</h2>
+      </div>
+      <a class="link-arrow" href="{{ url_for('shop') }}">Shop all {{ icon('arrow', 18) }}</a>
+    </div>
+    <div class="grid products">
+      {%- for p in products %}
+      {{ product_card(p, eager=loop.index <= 3) }}
+      {%- endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section section-dark" id="technology" aria-labelledby="tech-title">
+  <div class="container">
+    <div class="section-head section-head-stack">
+      <p class="eyebrow">Our technology</p>
+      <h2 id="tech-title" class="h2">PERFORMANCE, ENGINEERED.</h2>
+    </div>
+    <div class="grid tech-grid">
+      <article class="tech-card">
+        <span class="tech-icon">{{ icon('layers', 30) }}</span>
+        <h3>Adaptive Cushioning</h3>
+        <p>Dual-density AeroFoam responds to your pace, soft at easy speeds and springy when you push, so every landing feels controlled.</p>
+      </article>
+      <article class="tech-card">
+        <span class="tech-icon">{{ icon('feather', 30) }}</span>
+        <h3>Lightweight Performance</h3>
+        <p>Engineered air-mesh uppers and a carbon-infused frame cut weight without cutting support, keeping you fast over every kilometre.</p>
+      </article>
+      <article class="tech-card">
+        <span class="tech-icon">{{ icon('grip', 30) }}</span>
+        <h3>Advanced Grip Technology</h3>
+        <p>Multi-directional traction patterns bite on wet roads, gravel and trail alike, giving you confident footing in any condition.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section story" aria-labelledby="story-title">
+  <div class="container story-grid">
+    <div class="story-media">
+      <img src="{{ asset('images/story.svg') }}" alt="A blue AEROSTRIDE running shoe inside an orange ring, surrounded by the words comfort, movement, performance and innovation" width="800" height="900" loading="lazy" decoding="async">
+    </div>
+    <div class="story-copy">
+      <p class="eyebrow">Our story</p>
+      <h2 id="story-title" class="h2">BUILT FOR THE MILES AHEAD.</h2>
+      <p>AEROSTRIDE began with a simple question: what if a shoe disappeared the moment you started moving? We obsess over comfort so your feet stop being the story, and over movement so every stride feels natural.</p>
+      <p>Performance is earned in the details: the foam, the geometry, the grip. Innovation is how we keep finding the next one. Whether you're chasing a personal best or just heading out the door, we build for the miles ahead.</p>
+      <a class="btn btn-dark" href="{{ url_for('about') }}">READ OUR STORY {{ icon('arrow', 18) }}</a>
+    </div>
+  </div>
+</section>
+
+<section class="section section-stone campaign" aria-labelledby="campaign-title">
+  <div class="container">
+    <div class="section-head section-head-stack">
+      <p class="eyebrow">The campaign</p>
+      <h2 id="campaign-title" class="h2">IN MOTION. EVERYWHERE.</h2>
+      <p class="muted">From the track to the trail, AEROSTRIDE moves with you.</p>
+    </div>
+    <div class="grid campaign-grid">
+      <figure>
+        <img src="{{ asset('images/campaign-track.svg') }}" alt="Black and orange running shoe on an orange athletics track with converging white lane lines" width="600" height="750" loading="lazy" decoding="async">
+        <figcaption>Track sessions</figcaption>
+      </figure>
+      <figure>
+        <img src="{{ asset('images/campaign-city.svg') }}" alt="White lifestyle sneaker in front of a dark city skyline and an orange sun" width="600" height="750" loading="lazy" decoding="async">
+        <figcaption>City miles</figcaption>
+      </figure>
+      <figure>
+        <img src="{{ asset('images/campaign-trail.svg') }}" alt="Blue and orange running shoe in front of green mountain ridges" width="600" height="750" loading="lazy" decoding="async">
+        <figcaption>Trail days</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="section" aria-labelledby="reviews-title">
+  <div class="container">
+    <div class="section-head section-head-stack">
+      <p class="eyebrow">Customer reviews</p>
+      <h2 id="reviews-title" class="h2">RUNNERS ON RECORD.</h2>
+      <p class="muted">Illustrative testimonials from fictional customers, shown for design purposes only.</p>
+    </div>
+    <div class="grid reviews-grid">
+      {%- for r in reviews %}
+      <figure class="review">
+        {{ stars(r.rating) }}
+        <blockquote><p>{{ r.text }}</p></blockquote>
+        <figcaption><strong>{{ r.name }}</strong> &middot; {{ r.city }}<br><span class="muted">Wearing {{ r.product }}</span></figcaption>
+      </figure>
+      {%- endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="newsletter" id="newsletter" aria-labelledby="news-title">
+  <div class="container newsletter-inner">
+    <div>
+      <h2 id="news-title" class="h2">STAY AHEAD OF THE CURVE.</h2>
+      <p>New drops, training tips and early access, straight to your inbox. No spam, unsubscribe anytime.</p>
+    </div>
+    <form class="news-form" action="{{ url_for('newsletter') }}" method="post" novalidate data-newsletter>
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <label for="news-email" class="sr-only">Email address</label>
+      <div class="news-row">
+        <input id="news-email" name="email" type="email" placeholder="you@example.com" autocomplete="email" maxlength="254" required aria-describedby="news-msg">
+        <button class="btn btn-primary" type="submit">SUBSCRIBE</button>
+      </div>
+      <p id="news-msg" class="form-msg" role="status" aria-live="polite"></p>
+    </form>
+  </div>
+</section>
+{% endblock %}

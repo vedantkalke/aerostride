@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% from "_ui.html" import icon, product_card with context %}
+{% set title = ("Search: " ~ q ~ " | AEROSTRIDE") if q else ((category ~ " Shoes | AEROSTRIDE") if category else "Shop All Footwear | AEROSTRIDE") %}
+{% set description = "Browse AEROSTRIDE running, training, lifestyle and trail shoes. Search, filter by category and price, and find your perfect pair." %}
+{% set noindex = filtered and (q or band or sort != 'featured') %}
+
+{% block content %}
+<section class="page-head">
+  <div class="container">
+    <p class="eyebrow">AEROSTRIDE</p>
+    <h1 class="h1">{{ category|upper if category else "ALL SHOES" }}</h1>
+    <p class="muted">Running, training, lifestyle and trail footwear, engineered for every stride.</p>
+  </div>
+</section>
+
+<section class="section section-tight">
+  <div class="container">
+    <form class="filters" id="shop-filters" action="{{ url_for('shop') }}" method="get" role="search" aria-label="Filter products">
+      <div class="field grow">
+        <label for="f-q">Search by name</label>
+        <input id="f-q" type="search" name="q" value="{{ q }}" maxlength="60" placeholder="e.g. Velocity">
+      </div>
+      <div class="field">
+        <label for="f-cat">Category</label>
+        <select id="f-cat" name="category">
+          <option value="">All categories</option>
+          {%- for c in categories %}
+          <option value="{{ c }}"{% if c == category %} selected{% endif %}>{{ c }}</option>
+          {%- endfor %}
+        </select>
+      </div>
+      <div class="field">
+        <label for="f-price">Price range</label>
+        <select id="f-price" name="price">
+          {%- for key, label, lo, hi in price_bands %}
+          <option value="{{ key }}"{% if key == band %} selected{% endif %}>{{ label }}</option>
+          {%- endfor %}
+        </select>
+      </div>
+      <div class="field">
+        <label for="f-sort">Sort by</label>
+        <select id="f-sort" name="sort">
+          <option value="featured"{% if sort == 'featured' %} selected{% endif %}>Featured</option>
+          <option value="price_asc"{% if sort == 'price_asc' %} selected{% endif %}>Price: Low to High</option>
+          <option value="price_desc"{% if sort == 'price_desc' %} selected{% endif %}>Price: High to Low</option>
+        </select>
+      </div>
+      <div class="field field-actions">
+        <button class="btn btn-dark" type="submit">Apply</button>
+        {%- if filtered %}<a class="btn btn-ghost" href="{{ url_for('shop') }}">Clear</a>{% endif %}
+      </div>
+    </form>
+
+    <p class="result-count" role="status" aria-live="polite">{{ products|length }} {{ "style" if products|length == 1 else "styles" }}{% if q %} matching &ldquo;{{ q }}&rdquo;{% endif %}</p>
+
+    {%- if products %}
+    <div class="grid products">
+      {%- for p in products %}
+      {{ product_card(p, eager=loop.index <= 3) }}
+      {%- endfor %}
+    </div>
+    {%- else %}
+    <div class="empty">
+      <h2 class="h3">No shoes match your search.</h2>
+      <p class="muted">Try a different name, or clear the filters to see everything.</p>
+      <a class="btn btn-dark" href="{{ url_for('shop') }}">Clear filters</a>
+    </div>
+    {%- endif %}
+  </div>
+</section>
+{% endblock %}

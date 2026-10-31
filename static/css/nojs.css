@@ -1,0 +1,8 @@
+/* Loaded only inside <noscript>: keeps navigation usable without JavaScript. */
+.nav-toggle, .search-toggle { display: none; }
+.header-inner { flex-wrap: wrap; height: auto; padding-block: 8px; }
+.site-nav { display: block; position: static; order: 5; width: 100%; padding: 0; border: 0; background: none; }
+.site-nav ul { display: flex; gap: 18px; flex-wrap: wrap; }
+.site-nav a { font-size: .9rem; padding: 6px 0; border: 0; }
+.search { display: flex; position: static; order: 6; width: 100%; padding: 6px 0; border: 0; background: none; }
+.reveal { opacity: 1; transform: none; }

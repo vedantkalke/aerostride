@@ -1,0 +1,129 @@
+{% from "_ui.html" import icon, logo_mark with context %}
+{%- set meta_title = title|default("AEROSTRIDE | Engineered for every stride.") -%}
+{%- set meta_desc = description|default("AEROSTRIDE designs precision-engineered running, training and lifestyle footwear. Discover the collection.") -%}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ meta_title }}</title>
+  <meta name="description" content="{{ meta_desc }}">
+  <meta name="theme-color" content="#111111">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+  {%- if noindex %}
+  <meta name="robots" content="noindex, nofollow">
+  {%- endif %}
+  <link rel="canonical" href="{{ canonical_url }}">
+  <link rel="icon" href="{{ asset('images/favicon.svg') }}" type="image/svg+xml">
+
+  <meta property="og:site_name" content="AEROSTRIDE">
+  <meta property="og:type" content="{{ og_type|default('website') }}">
+  <meta property="og:title" content="{{ meta_title }}">
+  <meta property="og:description" content="{{ meta_desc }}">
+  <meta property="og:url" content="{{ canonical_url }}">
+  <meta property="og:image" content="{{ site_url }}{{ url_for('static', filename='images/og.png') }}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+  <script src="{{ asset('js/app.js') }}" defer></script>
+  <noscript><link rel="stylesheet" href="{{ asset('css/nojs.css') }}"></noscript>
+  {%- block head %}{% endblock %}
+</head>
+<body class="page-{{ page_id|default('page') }}"
+      data-free-shipping="{{ free_shipping }}" data-flat-shipping="{{ flat_shipping }}" data-max-qty="{{ max_qty }}">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <div class="announce" role="note">
+    <p>Free shipping on orders over {{ free_shipping|inr }} <span aria-hidden="true">·</span> <strong>Demo store: no real orders or payments</strong></p>
+  </div>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <button class="icon-btn nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">
+        <span class="when-closed">{{ icon('menu') }}</span><span class="when-open">{{ icon('close') }}</span>
+      </button>
+
+      <a class="logo" href="{{ url_for('index') }}" aria-label="AEROSTRIDE home">{{ logo_mark() }}<span>AEROSTRIDE</span></a>
+
+      <nav id="site-nav" class="site-nav" aria-label="Primary">
+        <ul>
+          <li><a href="{{ url_for('index') }}"{% if page_id == 'home' %} aria-current="page"{% endif %}>Home</a></li>
+          <li><a href="{{ url_for('shop') }}"{% if page_id in ('shop', 'product') %} aria-current="page"{% endif %}>Shop</a></li>
+          <li><a href="{{ url_for('about') }}"{% if page_id == 'about' %} aria-current="page"{% endif %}>Our Story</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <form class="search" id="site-search-form" action="{{ url_for('shop') }}" method="get" role="search">
+          <label class="sr-only" for="site-search">Search shoes by name</label>
+          <input id="site-search" type="search" name="q" placeholder="Search shoes" maxlength="60" autocomplete="off" value="{{ q|default('') }}">
+          <button class="icon-btn search-submit" type="submit" aria-label="Search">{{ icon('search') }}</button>
+        </form>
+        <button class="icon-btn search-toggle" type="button" aria-expanded="false" aria-controls="site-search-form" aria-label="Open search">{{ icon('search') }}</button>
+        <a class="icon-btn" href="{{ url_for('wishlist') }}" aria-label="Wishlist" data-wish-link>{{ icon('heart') }}<span class="badge" data-wish-count hidden>0</span></a>
+        <a class="icon-btn" href="{{ url_for('cart') }}" aria-label="Shopping bag, 0 items" data-cart-link>{{ icon('bag') }}<span class="badge" data-cart-count hidden>0</span></a>
+      </div>
+    </div>
+  </header>
+
+  <div class="toast-region" id="toasts" aria-live="polite">
+    {%- for category, message in get_flashed_messages(with_categories=true) %}
+    <div class="toast toast-{{ category }}" role="status">{{ message }}</div>
+    {%- endfor %}
+  </div>
+
+  <main id="main">
+    {%- block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <a class="logo" href="{{ url_for('index') }}" aria-label="AEROSTRIDE home">{{ logo_mark() }}<span>AEROSTRIDE</span></a>
+        <p class="tagline">ENGINEERED FOR EVERY STRIDE.</p>
+        <p class="muted">Performance footwear for running, training and every day in between.</p>
+      </div>
+      <nav aria-label="Shop">
+        <h2 class="footer-h">Shop</h2>
+        <ul>
+          <li><a href="{{ url_for('shop') }}">All shoes</a></li>
+          {%- for c in categories %}
+          <li><a href="{{ url_for('shop', category=c) }}">{{ c }}</a></li>
+          {%- endfor %}
+        </ul>
+      </nav>
+      <nav aria-label="Customer support">
+        <h2 class="footer-h">Support</h2>
+        <ul>
+          <li><a href="{{ url_for('contact') }}">Contact us</a></li>
+          <li><a href="{{ url_for('contact') }}#shipping-returns">Shipping &amp; returns</a></li>
+          <li><a href="{{ url_for('contact') }}#size-guide">Size guide</a></li>
+          <li><a href="{{ url_for('cart') }}">Your bag</a></li>
+        </ul>
+      </nav>
+      <nav aria-label="About the brand">
+        <h2 class="footer-h">Brand</h2>
+        <ul>
+          <li><a href="{{ url_for('about') }}">Our story</a></li>
+          <li><a href="{{ url_for('about') }}#technology">Technology</a></li>
+          <li><a href="{{ url_for('privacy') }}">Privacy policy</a></li>
+          <li><a href="{{ url_for('terms') }}">Terms &amp; conditions</a></li>
+        </ul>
+      </nav>
+      <nav aria-label="Social media">
+        <h2 class="footer-h">Follow</h2>
+        <ul>
+          {%- for label, href in social_links %}
+          <li><a href="{{ href }}" target="_blank" rel="noopener noreferrer">{{ label }}<span class="sr-only"> (opens in a new tab)</span></a></li>
+          {%- endfor %}
+        </ul>
+      </nav>
+    </div>
+    <div class="container footer-bottom">
+      <p>&copy; {{ year }} AEROSTRIDE. A fictional brand created for demonstration. No real products are sold.</p>
+    </div>
+  </footer>
+</body>
+</html>

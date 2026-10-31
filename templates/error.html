@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% from "_ui.html" import icon with context %}
+{% set title = title ~ " | AEROSTRIDE" %}
+{% set description = text %}
+{% set noindex = true %}
+
+{% block content %}
+<section class="section error-page">
+  <div class="container center">
+    <p class="eyebrow">Error {{ code }}</p>
+    <h1 class="h1">{{ title|replace(" | AEROSTRIDE", "")|upper }}</h1>
+    <p class="muted">{{ text }}</p>
+    <div class="btn-row center-row">
+      <a class="btn btn-primary" href="{{ url_for('index') }}">BACK TO HOME</a>
+      <a class="btn btn-outline" href="{{ url_for('shop') }}">SHOP THE COLLECTION</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

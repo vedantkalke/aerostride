@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% from "_ui.html" import icon with context %}
+{% set title = "Order Confirmed (Demo) | AEROSTRIDE" %}
+{% set description = "Your simulated AEROSTRIDE order has been placed." %}
+{% set noindex = true %}
+
+{% block content %}
+<section class="section success" data-clear-cart>
+  <div class="container narrow">
+    <span class="success-icon">{{ icon('check', 34) }}</span>
+    <p class="eyebrow">Demo order confirmed</p>
+    <h1 class="h1">THANK YOU, {{ order.name.split()[0]|upper }}.</h1>
+    <p class="lead-sm">Order <strong>{{ order.number }}</strong> was placed as a <strong>simulated</strong> order. No payment was taken and nothing will ship. A real store would email its confirmation to <strong>{{ order.email }}</strong>.</p>
+
+    <div class="order-card">
+      <h2 class="h4">Order summary</h2>
+      <ul class="sum-list">
+        {%- for it in items %}
+        <li class="sum-item sum-item-text">
+          <div>
+            <p class="sum-name">{{ it.product_name }}</p>
+            <p class="muted small">Size UK {{ it.size }} &middot; Qty {{ it.quantity }} &times; {{ it.unit_price|inr }}</p>
+          </div>
+          <p class="sum-line">{{ (it.unit_price * it.quantity)|inr }}</p>
+        </li>
+        {%- endfor %}
+      </ul>
+      <dl class="totals">
+        <div><dt>Subtotal</dt><dd>{{ order.subtotal|inr }}</dd></div>
+        <div><dt>Shipping</dt><dd>{{ "Free" if order.shipping == 0 else order.shipping|inr }}</dd></div>
+        <div class="total"><dt>Total</dt><dd>{{ order.total|inr }}</dd></div>
+      </dl>
+      <h2 class="h4">Shipping to</h2>
+      <address>
+        {{ order.name }}<br>{{ order.address }}<br>{{ order.city }} {{ order.pin }}<br>{{ order.phone }}
+      </address>
+    </div>
+
+    <div class="btn-row">
+      <a class="btn btn-primary" href="{{ url_for('shop') }}">CONTINUE SHOPPING {{ icon('arrow', 18) }}</a>
+      <a class="btn btn-outline" href="{{ url_for('index') }}">BACK TO HOME</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

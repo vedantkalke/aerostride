@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% from "_ui.html" import icon with context %}
+{% set title = "Our Story | AEROSTRIDE" %}
+{% set description = "The story behind AEROSTRIDE: a brand built around comfort, movement, performance and innovation. Meet the technology inside every shoe." %}
+
+{% block content %}
+<section class="page-head page-head-dark">
+  <div class="container">
+    <p class="eyebrow">Our story</p>
+    <h1 class="display display-sm">BUILT FOR THE<br><span class="accent">MILES AHEAD.</span></h1>
+    <p class="lead lead-light">AEROSTRIDE exists to make movement feel effortless, for the first kilometre and the fortieth.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container prose-grid">
+    <div>
+      <h2 class="h2">WHY WE BUILD</h2>
+    </div>
+    <div class="prose">
+      <p>Every great run starts with a small decision: lacing up. We believe the shoe should never get in the way of that decision, or of what comes after it. So we start with the foot, the stride and the surface, and engineer everything else around them.</p>
+      <p>Our designers, biomechanists and runners test relentlessly, from early morning intervals to muddy ridge lines, refining foam, geometry and grip until the shoe feels like part of the movement. What remains is minimal by design: nothing extra, everything earned.</p>
+      <p>AEROSTRIDE is a fictional brand created for this demonstration, but the principles above are the ones we would build a real footwear company on.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section section-stone" aria-labelledby="values-title">
+  <div class="container">
+    <div class="section-head section-head-stack">
+      <p class="eyebrow">What drives us</p>
+      <h2 id="values-title" class="h2">FOUR PRINCIPLES.</h2>
+    </div>
+    <div class="grid values-grid">
+      <article class="value"><span class="num">01</span><h3>Comfort</h3><p>If it isn't comfortable at kilometre one, it won't be at kilometre forty. Fit and feel come first.</p></article>
+      <article class="value"><span class="num">02</span><h3>Movement</h3><p>Shoes should follow your natural stride, not fight it. We shape every sole around how feet actually move.</p></article>
+      <article class="value"><span class="num">03</span><h3>Performance</h3><p>Measurable gains in weight, energy return and grip, tested until the numbers hold up.</p></article>
+      <article class="value"><span class="num">04</span><h3>Innovation</h3><p>New materials and smarter construction, introduced only when they make the run better.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="section section-dark" id="technology" aria-labelledby="tech-title">
+  <div class="container">
+    <div class="section-head section-head-stack">
+      <p class="eyebrow">Technology</p>
+      <h2 id="tech-title" class="h2">INSIDE EVERY AEROSTRIDE.</h2>
+    </div>
+    <div class="grid tech-grid">
+      <article class="tech-card">
+        <span class="tech-icon">{{ icon('layers', 30) }}</span>
+        <h3>Adaptive Cushioning</h3>
+        <p>AeroFoam pairs a soft top layer with a responsive core. It absorbs impact at easy paces and returns energy as you speed up.</p>
+      </article>
+      <article class="tech-card">
+        <span class="tech-icon">{{ icon('feather', 30) }}</span>
+        <h3>Lightweight Performance</h3>
+        <p>Engineered air-mesh and a carbon-infused frame strip out weight while keeping the structure that holds you steady.</p>
+      </article>
+      <article class="tech-card">
+        <span class="tech-icon">{{ icon('grip', 30) }}</span>
+        <h3>Advanced Grip Technology</h3>
+        <p>Directional lug patterns and a high-friction rubber compound keep traction predictable on wet roads, gravel and trail.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section cta-band">
+  <div class="container center">
+    <h2 class="h2">FIND YOUR STRIDE.</h2>
+    <p class="muted">Explore the full collection of running, training, lifestyle and trail footwear.</p>
+    <a class="btn btn-primary" href="{{ url_for('shop') }}">SHOP THE COLLECTION {{ icon('arrow', 18) }}</a>
+  </div>
+</section>
+{% endblock %}

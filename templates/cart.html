@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% from "_ui.html" import icon with context %}
+{% set title = "Your Bag | AEROSTRIDE" %}
+{% set description = "Review the items in your AEROSTRIDE shopping bag." %}
+{% set noindex = true %}
+
+{% block head %}
+  <script id="catalog-data" type="application/json">{{ catalog_json|safe }}</script>
+{%- endblock %}
+
+{% block content %}
+<section class="page-head">
+  <div class="container">
+    <h1 class="h1">YOUR BAG</h1>
+  </div>
+</section>
+
+<section class="section section-tight">
+  <div class="container cart-app" data-cart-page>
+    <noscript><p class="notice">Your bag needs JavaScript to display saved items. Please enable it and reload.</p></noscript>
+
+    <div class="empty" data-cart-empty hidden>
+      <h2 class="h3">Your bag is empty.</h2>
+      <p class="muted">Find your next pair and it will show up here.</p>
+      <a class="btn btn-dark" href="{{ url_for('shop') }}">CONTINUE SHOPPING {{ icon('arrow', 18) }}</a>
+    </div>
+
+    <div class="cart-layout" data-cart-content hidden>
+      <ul class="cart-list" data-cart-list aria-label="Items in your bag"></ul>
+
+      <aside class="summary" aria-labelledby="sum-title">
+        <h2 id="sum-title" class="h3">Order summary</h2>
+        <p class="ship-note" data-ship-note></p>
+        <progress class="ship-progress" max="{{ free_shipping }}" value="0" aria-hidden="true" data-ship-progress></progress>
+        <dl class="totals">
+          <div><dt>Subtotal</dt><dd data-subtotal>&nbsp;</dd></div>
+          <div><dt>Shipping</dt><dd data-shipping>&nbsp;</dd></div>
+          <div class="total"><dt>Total</dt><dd data-total>&nbsp;</dd></div>
+        </dl>
+        <a class="btn btn-primary btn-block" href="{{ url_for('checkout') }}">CHECKOUT {{ icon('arrow', 18) }}</a>
+        <a class="link-arrow center" href="{{ url_for('shop') }}">Continue shopping</a>
+        <p class="muted small">Checkout is a demonstration. No payment is taken.</p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<template id="cart-item-tpl">
+  <li class="cart-item">
+    <a class="cart-thumb" data-link tabindex="-1" aria-hidden="true"><img alt="" width="800" height="600" loading="lazy" decoding="async"></a>
+    <div class="cart-info">
+      <h3 class="cart-name"><a data-link data-name></a></h3>
+      <p class="muted small" data-meta></p>
+      <p class="small" data-unit></p>
+      <div class="qty qty-sm" role="group" aria-label="Quantity">
+        <button type="button" data-dec aria-label="Decrease quantity">{{ icon('minus', 16) }}</button>
+        <span class="qty-val" data-qty aria-live="polite"></span>
+        <button type="button" data-inc aria-label="Increase quantity">{{ icon('plus', 16) }}</button>
+      </div>
+    </div>
+    <div class="cart-side">
+      <p class="cart-line" data-line></p>
+      <button class="link-btn" type="button" data-remove>{{ icon('trash', 16) }} Remove</button>
+    </div>
+  </li>
+</template>
+{% endblock %}

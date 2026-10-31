@@ -1,0 +1,57 @@
+{# Reusable UI components. Import with:  {% from "_ui.html" import icon, product_card with context %} #}
+
+{% macro icon(name, size=22) -%}
+<svg class="icon icon-{{ name }}" width="{{ size }}" height="{{ size }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+{%- if name == 'search' %}<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>
+{%- elif name == 'bag' %}<path d="M5 8h14l-1 12H6L5 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/>
+{%- elif name == 'heart' %}<path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z"/>
+{%- elif name == 'menu' %}<path d="M4 7h16M4 12h16M4 17h16"/>
+{%- elif name == 'close' %}<path d="M6 6l12 12M18 6 6 18"/>
+{%- elif name == 'arrow' %}<path d="M5 12h14m-6-6 6 6-6 6"/>
+{%- elif name == 'plus' %}<path d="M12 5v14M5 12h14"/>
+{%- elif name == 'minus' %}<path d="M5 12h14"/>
+{%- elif name == 'trash' %}<path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/>
+{%- elif name == 'check' %}<path d="m5 12.5 4.5 4.5L19 7.5"/>
+{%- elif name == 'layers' %}<path d="m12 3 9 5-9 5-9-5 9-5Z"/><path d="m3 12.5 9 5 9-5"/><path d="m3 17 9 5 9-5"/>
+{%- elif name == 'feather' %}<path d="M20.2 3.8C13 3 7 7 6.5 14L4 20"/><path d="M20.2 3.8C20 10 16 15 9 15.3"/><path d="M8 17c2-.2 4-1.2 5.5-3"/>
+{%- elif name == 'grip' %}<path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3Z"/><path d="M12 12l8-4.5M12 12v9M12 12 4 7.5"/>
+{%- elif name == 'truck' %}<path d="M3 6h11v10H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/>
+{%- elif name == 'return' %}<path d="M4 9V4M4 9h5M4.5 9A8 8 0 1 1 4 14"/>
+{%- elif name == 'shield' %}<path d="M12 3 5 6v5c0 4.5 3 8 7 10 4-2 7-5.5 7-10V6l-7-3Z"/><path d="m9 12 2 2 4-4"/>
+{%- elif name == 'star' %}<path fill="currentColor" stroke="none" d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9L12 3Z"/>
+{%- endif %}</svg>
+{%- endmacro %}
+
+{% macro logo_mark(size=28) -%}
+<svg class="logo-mark" width="{{ size }}" height="{{ size }}" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><rect width="64" height="64" rx="14" fill="#111"/><path d="M14 46 32 14l18 32" fill="none" stroke="#FF5722" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/><path d="M22 46h20" stroke="#fff" stroke-width="5" stroke-linecap="round"/></svg>
+{%- endmacro %}
+
+{# One product card. `eager` loads the image immediately (first row above the fold). #}
+{% macro product_card(p, eager=False) %}
+<article class="card" data-product="{{ p.slug }}">
+  <div class="card-media">
+    <a href="{{ url_for('product', slug=p.slug) }}" tabindex="-1" aria-hidden="true">
+      <img src="{{ asset(p.images[0]) }}" alt="" width="800" height="600" {% if eager %}fetchpriority="high"{% else %}loading="lazy"{% endif %} decoding="async">
+    </a>
+    <button class="wish" type="button" data-wish="{{ p.slug }}" aria-pressed="false" aria-label="Add {{ p.short_name }} to wishlist">{{ icon('heart', 20) }}</button>
+  </div>
+  <div class="card-body">
+    <p class="card-cat">{{ p.category }}</p>
+    <h3 class="card-title"><a href="{{ url_for('product', slug=p.slug) }}">{{ p.name }}</a></h3>
+    <p class="card-price">{{ p.price|inr }}</p>
+    <p class="card-desc">{{ p.description }}</p>
+    <fieldset class="sizes">
+      <legend>Available sizes (UK)</legend>
+      <div class="size-row">
+        {%- for s in p.sizes %}<button class="size" type="button" data-size="{{ s }}" aria-pressed="false" aria-label="Size UK {{ s }}">{{ s }}</button>{% endfor -%}
+      </div>
+    </fieldset>
+    <button class="btn btn-dark btn-block" type="button" data-quick-add>Quick add</button>
+    <p class="card-msg" role="status" aria-live="polite"></p>
+  </div>
+</article>
+{% endmacro %}
+
+{% macro stars(n) -%}
+<span class="stars" role="img" aria-label="{{ n }} out of 5 stars">{% for i in range(n) %}{{ icon('star', 16) }}{% endfor %}</span>
+{%- endmacro %}

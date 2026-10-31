@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% from "_ui.html" import icon with context %}
+{% set title = "Contact Us | AEROSTRIDE" %}
+{% set description = "Questions about sizing, orders or returns? Contact the AEROSTRIDE team, or browse our shipping, returns and size guide." %}
+
+{% block content %}
+<section class="page-head">
+  <div class="container">
+    <p class="eyebrow">Support</p>
+    <h1 class="h1">CONTACT US</h1>
+    <p class="muted">Questions about fit, orders or returns? We usually reply within two working days.</p>
+  </div>
+</section>
+
+<section class="section section-tight">
+  <div class="container contact-layout">
+    <form class="contact-form" id="contact-form" method="post" action="{{ url_for('contact') }}" novalidate data-contact-form>
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <div class="field{% if errors.get('name') %} has-error{% endif %}">
+        <label for="m-name">Full name</label>
+        <input id="m-name" name="name" type="text" value="{{ values.get('name', '') }}" autocomplete="name" maxlength="80" required aria-describedby="err-name"{% if errors.get('name') %} aria-invalid="true"{% endif %} data-field="name">
+        <p class="field-error" id="err-name" role="alert">{{ errors.get('name', '') }}</p>
+      </div>
+      <div class="field{% if errors.get('email') %} has-error{% endif %}">
+        <label for="m-email">Email</label>
+        <input id="m-email" name="email" type="email" value="{{ values.get('email', '') }}" autocomplete="email" maxlength="254" required aria-describedby="err-email"{% if errors.get('email') %} aria-invalid="true"{% endif %} data-field="email">
+        <p class="field-error" id="err-email" role="alert">{{ errors.get('email', '') }}</p>
+      </div>
+      <div class="field">
+        <label for="m-subject">Topic</label>
+        <select id="m-subject" name="subject">
+          {%- for t in ["General enquiry", "Order help", "Sizing and fit", "Returns and exchanges", "Press and partnerships"] %}
+          <option{% if values.get('subject') == t %} selected{% endif %}>{{ t }}</option>
+          {%- endfor %}
+        </select>
+      </div>
+      <div class="field{% if errors.get('message') %} has-error{% endif %}">
+        <label for="m-message">Message</label>
+        <textarea id="m-message" name="message" rows="6" maxlength="2000" required aria-describedby="err-message"{% if errors.get('message') %} aria-invalid="true"{% endif %} data-field="message">{{ values.get('message', '') }}</textarea>
+        <p class="field-error" id="err-message" role="alert">{{ errors.get('message', '') }}</p>
+      </div>
+      <button class="btn btn-dark" type="submit">SEND MESSAGE</button>
+    </form>
+
+    <aside class="contact-info" aria-label="Contact details">
+      <h2 class="h4">Reach us</h2>
+      <p>Email<br><a href="mailto:support@aerostride.example">support@aerostride.example</a></p>
+      <p>Studio<br>AEROSTRIDE Studio, Pune, Maharashtra, India<br><span class="muted small">(fictional address for this demo)</span></p>
+      <p>Support hours<br>Monday to Saturday, 10:00 to 18:00 IST</p>
+    </aside>
+  </div>
+</section>
+
+<section class="section section-stone" id="shipping-returns" aria-labelledby="ship-title">
+  <div class="container narrow-wide">
+    <h2 id="ship-title" class="h2">SHIPPING &amp; RETURNS</h2>
+    <div class="faq">
+      <details open>
+        <summary>How much does shipping cost?</summary>
+        <p>Orders of {{ free_shipping|inr }} or more ship free. Smaller orders ship for a flat {{ flat_shipping|inr }}. Delivery takes 3 to 7 working days across India.</p>
+      </details>
+      <details>
+        <summary>What is your returns policy?</summary>
+        <p>Return unworn pairs within 30 days for a full refund. Size exchanges are free. Keep the original box and tags.</p>
+      </details>
+      <details>
+        <summary>Is this a real store?</summary>
+        <p>No. AEROSTRIDE is a fictional brand and this is a demonstration site. Orders are simulated and no payments are processed.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="size-guide" aria-labelledby="size-title">
+  <div class="container narrow-wide">
+    <h2 id="size-title" class="h2">SIZE GUIDE</h2>
+    <p class="muted">Measure your foot from heel to longest toe. If you're between sizes, size up for running shoes.</p>
+    <div class="table-wrap">
+      <table class="size-table">
+        <caption class="sr-only">AEROSTRIDE size conversion chart</caption>
+        <thead><tr><th scope="col">UK</th><th scope="col">EU</th><th scope="col">US (men)</th><th scope="col">Foot length (cm)</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">6</th><td>39.5</td><td>7</td><td>24.5</td></tr>
+          <tr><th scope="row">7</th><td>40.5</td><td>8</td><td>25.4</td></tr>
+          <tr><th scope="row">8</th><td>42</td><td>9</td><td>26.2</td></tr>
+          <tr><th scope="row">9</th><td>43</td><td>10</td><td>27.1</td></tr>
+          <tr><th scope="row">10</th><td>44.5</td><td>11</td><td>27.9</td></tr>
+          <tr><th scope="row">11</th><td>46</td><td>12</td><td>28.8</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+{% endblock %}
