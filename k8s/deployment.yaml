@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aerostride
+  namespace: aerostride
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: aerostride
+  template:
+    metadata:
+      labels:
+        app: aerostride
+    spec:
+      imagePullSecrets:
+        - name: ecr-registry-secret
+      containers:
+        - name: aerostride
+          image: 149471050535.dkr.ecr.us-east-1.amazonaws.com/aerostride:v1
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8000
+          env:
+            - name: PORT
+              value: "8000"
+            - name: AEROSTRIDE_ENV
+              value: "production"
+            - name: AEROSTRIDE_DB
+              value: "/data/aerostride.db"
+            - name: SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: aerostride-app-secret
+                  key: SECRET_KEY
+          volumeMounts:
+            - name: aerostride-data
+              mountPath: /data
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8000
+            initialDelaySeconds: 20
+            periodSeconds: 20
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+      volumes:
+        - name: aerostride-data
+          persistentVolumeClaim:
+            claimName: aerostride-data
