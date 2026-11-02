@@ -17,7 +17,7 @@ spec:
         - name: ecr-registry-secret
       containers:
         - name: aerostride
-          image: 149471050535.dkr.ecr.us-east-1.amazonaws.com/aerostride:v1
+          image: 149471050535.dkr.ecr.us-east-1.amazonaws.com/aerostride:bde528f887d6a92c4ba806b585ddd8eefa3b5129
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
