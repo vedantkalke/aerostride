@@ -1,3 +1,4 @@
+
 name: AeroStride CI
 
 on:
@@ -5,6 +6,15 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+
+permissions:
+  contents: read
+  id-token: write
+
+env:
+  AWS_REGION: us-east-1
+  ECR_REPOSITORY: aerostride
+  ECR_REGISTRY: 149471050535.dkr.ecr.us-east-1.amazonaws.com
 
 jobs:
   test-and-build:
@@ -29,3 +39,26 @@ jobs:
 
       - name: Build Docker image
         run: docker build -t aerostride:${{ github.sha }} .
+
+      - name: Configure AWS credentials
+        if: github.event_name == 'push'
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        if: github.event_name == 'push'
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Tag Docker image
+        if: github.event_name == 'push'
+        run: |
+          docker tag aerostride:${{ github.sha }} \
+            ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ github.sha }}
+
+      - name: Push image to Amazon ECR
+        if: github.event_name == 'push'
+        run: |
+          docker push ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ github.sha }}
