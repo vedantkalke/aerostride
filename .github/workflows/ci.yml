@@ -8,7 +8,7 @@ on:
     branches: [main]
 
 permissions:
-  contents: read
+  contents: write
   id-token: write
 
 env:
@@ -49,7 +49,6 @@ jobs:
 
       - name: Login to Amazon ECR
         if: github.event_name == 'push'
-        id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
       - name: Tag Docker image
@@ -62,3 +61,52 @@ jobs:
         if: github.event_name == 'push'
         run: |
           docker push ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ github.sha }}
+
+      - name: Update Kubernetes deployment image
+        if: github.event_name == 'push'
+        run: |
+          python - <<'PY'
+          import os
+          from pathlib import Path
+
+          manifest = Path("k8s/deployment.yaml")
+          content = manifest.read_text()
+
+          image = (
+              f"{os.environ['ECR_REGISTRY']}/"
+              f"{os.environ['ECR_REPOSITORY']}:"
+              f"{os.environ['GITHUB_SHA']}"
+          )
+
+          lines = content.splitlines()
+          updated = []
+          found = False
+
+          for line in lines:
+              if line.lstrip().startswith("image:"):
+                  indent = line[:len(line) - len(line.lstrip())]
+                  line = f"{indent}image: {image}"
+                  found = True
+              updated.append(line)
+
+          if not found:
+              raise SystemExit("No image: entry found in k8s/deployment.yaml")
+
+          manifest.write_text("\n".join(updated) + "\n")
+          print(f"Updated deployment image to: {image}")
+          PY
+
+      - name: Commit and push Kubernetes manifest
+        if: github.event_name == 'push'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add k8s/deployment.yaml
+
+          if git diff --cached --quiet; then
+            echo "No Kubernetes manifest changes to commit."
+          else
+            git commit -m "Update AeroStride image to ${GITHUB_SHA} [skip ci]"
+            git push
+          fi
